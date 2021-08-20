@@ -1,0 +1,36 @@
+version: '3'
+services:
+  laravel:
+    container_name: container_marketplace
+    image: imagem_marketplace 
+    build: 
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - d:/marketplace/example-app:/var/www/html
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - d:/marketplace/bancodados:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      - PMA_ARBITRARY=1
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
